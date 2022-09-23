@@ -50,12 +50,9 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
   late AnimationController itemsController;
   late Animation<double> selectedPosAnimation;
   late Animation<double> itemsAnimation;
-
   late List<double> _itemsSelectedState;
-
   int? selectedPos;
   int? previousSelectedPos;
-
   CircularBottomNavigationController? _controller;
 
   @override
@@ -142,8 +139,8 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
           width: fullWidth,
           height: widget.barHeight,
           decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: widget.barBackgroundColor,
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+            color: Color(0xFF3DCEA6),
             boxShadow: widget.backgroundBoxShadow,
           ),
         ),
@@ -158,45 +155,16 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
         child: Container(
           width: widget.circleSize,
           height: widget.circleSize,
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: <Widget>[
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(widget.circleSize / 2),
-                          topRight: Radius.circular(widget.circleSize / 2),
-                        ),
-                        color: widget.barBackgroundColor,
-                        boxShadow: widget.backgroundBoxShadow,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(widget.circleSize / 2),
-                          bottomRight: Radius.circular(widget.circleSize / 2),
-                        ),
-                        color: widget.barBackgroundColor,
-                      ),
-                    ),
-                  ),
-                ],
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              border: Border.fromBorderSide(
+                BorderSide(color: Colors.black12),
               ),
-              Container(
-                margin: EdgeInsets.all(widget.circleStrokeWidth),
-                decoration: BoxDecoration(shape: BoxShape.circle, color: widget.tabItems[selectedPos!].circleColor),
-              ),
-            ],
-          ),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(color: Colors.black45, blurRadius:1 , spreadRadius: -1),
+                BoxShadow(color: Colors.white, blurRadius: 5, spreadRadius: -1),
+              ]),
         ),
         left: (selectedPosAnimation.value * sectionsWidth) + (sectionsWidth / 2) - (widget.circleSize / 2),
         top: maxShadowHeight,
@@ -207,7 +175,7 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
     boxes.asMap().forEach((int pos, Rect r) {
       // Icon
       Color iconColor = pos == selectedPos ? widget.selectedIconColor : widget.normalIconColor;
-      double scaleFactor = pos == selectedPos ? 1.2 : 1.0;
+      double scaleFactor = pos == selectedPos ? 1.0 : 1.0;
       children.add(
         Positioned(
           child: Transform.scale(
@@ -270,6 +238,7 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
     });
 
     return Stack(
+      clipBehavior: Clip.none,
       children: children,
     );
   }

@@ -34,33 +34,14 @@ class _MyHomePageState extends State<MyHomePage> {
   double bottomNavBarHeight = 60;
 
   List<TabItem> tabItems = List.of([
-    TabItem(
-      Icons.home,
-      "Home",
-      Colors.blue,
-      labelStyle: TextStyle(
-        fontWeight: FontWeight.normal,
-      ),
-    ),
-    TabItem(
-      Icons.search,
-      "Search",
-      Colors.orange,
-      labelStyle: TextStyle(
-        color: Colors.red,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    TabItem(
-      Icons.layers,
-      "Reports",
-      Colors.red,
-    ),
-    TabItem(
-      Icons.notifications,
-      "Notifications",
-      Colors.cyan,
-    ),
+    TabItem(Icons.shopping_cart, "Cart", Colors.white,
+        labelStyle:
+        const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+    TabItem(Icons.home, "Home", Colors.white,
+        labelStyle:
+        const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+    TabItem(Icons.person, "Account", Colors.white,  labelStyle:
+    const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
   ]);
 
   late CircularBottomNavigationController _navigationController;
@@ -137,12 +118,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return CircularBottomNavigation(
       tabItems,
       controller: _navigationController,
+      selectedIconColor: Color(0xFF3DCEA6),
       selectedPos: selectedPos,
-      barHeight: bottomNavBarHeight,
-      barBackgroundColor: Colors.white,
-      backgroundBoxShadow: <BoxShadow>[
-        BoxShadow(color: Colors.black45, blurRadius: 10.0),
-      ],
+      barHeight: 70,
+      // barBackgroundColor: Colors.white,
+      // backgroundBoxShadow: <BoxShadow>[
+      //   BoxShadow(color: Colors.black45, blurRadius: 10.0),
+      // ],
       animationDuration: Duration(milliseconds: 300),
       selectedCallback: (int? selectedPos) {
         setState(() {
