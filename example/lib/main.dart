@@ -55,10 +55,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Stack(
         children: <Widget>[
           Padding(
-            child: bodyContainer(),
+            child: Container(color: Colors.black),
             padding: EdgeInsets.only(bottom: bottomNavBarHeight),
           ),
           Align(alignment: Alignment.bottomCenter, child: bottomNav())

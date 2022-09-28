@@ -37,7 +37,7 @@ class CircularBottomNavigation extends StatefulWidget {
     this.selectedCallback,
     this.controller,
     backgroundBoxShadow,
-  })  : backgroundBoxShadow = backgroundBoxShadow ?? [BoxShadow(color: Colors.grey, blurRadius: 2.0)],
+  })  : backgroundBoxShadow = backgroundBoxShadow ?? [const BoxShadow(color: Colors.grey, blurRadius: 2.0)],
         assert(tabItems.length != 0, "tabItems is required");
 
   @override
@@ -45,7 +45,7 @@ class CircularBottomNavigation extends StatefulWidget {
 }
 
 class _CircularBottomNavigationState extends State<CircularBottomNavigation> with TickerProviderStateMixin {
-  Curve _animationsCurve = Cubic(0.27, 1.21, .77, 1.09);
+  Curve _animationsCurve = const Cubic(0.27, 1.21, .77, 1.09);
 
   late AnimationController itemsController;
   late Animation<double> selectedPosAnimation;
@@ -127,7 +127,7 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
     List<Widget> children = [];
 
     // This is the full view transparent background (have free space for circle)
-    children.add(Container(
+    children.add(SizedBox(
       width: fullWidth,
       height: fullHeight,
     ));
@@ -139,8 +139,8 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
           width: fullWidth,
           height: widget.barHeight,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
-            color: Color(0xFF3DCEA6),
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+            color: const Color(0xFF3DCEA6),
             boxShadow: widget.backgroundBoxShadow,
           ),
         ),
@@ -156,7 +156,7 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
           width: widget.circleSize,
           height: widget.circleSize,
           alignment: Alignment.center,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               border: Border.fromBorderSide(
                 BorderSide(color: Colors.black12),
               ),
@@ -180,16 +180,27 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
         Positioned(
           child: Transform.scale(
             scale: scaleFactor,
-            child: Icon(
-              widget.tabItems[pos].icon,
-              size: widget.iconsSize,
-              color: iconColor,
+            child: Column(
+              children: [
+                Icon(
+                  widget.tabItems[pos].icon,
+                  size: widget.iconsSize,
+                  color: iconColor,
+                ),
+                pos == selectedPos? const Offstage():  Center(
+                  child: Text(
+                    widget.tabItems[pos].title,
+                    textAlign: TextAlign.center,
+                    style: widget.tabItems[pos].labelStyle.copyWith(fontSize: 12,color: Colors.white60),
+                  ),
+                ),
+              ],
             ),
           ),
           left: r.center.dx - (widget.iconsSize / 2),
           top: r.center.dy -
-              (widget.iconsSize / 2) -
-              (_itemsSelectedState[pos] * ((widget.barHeight / 2) + widget.circleStrokeWidth)),
+              (widget.iconsSize /1.4) -
+              (_itemsSelectedState[pos] * ((widget. barHeight / 2.7) + widget.circleStrokeWidth)),
         ),
       );
 
@@ -202,17 +213,14 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
         opacity = 1.0;
       }
       children.add(Positioned(
-        child: Container(
+        child: SizedBox(
           width: r.width,
           height: textHeight,
           child: Center(
-            child: Opacity(
-              opacity: opacity,
-              child: Text(
-                widget.tabItems[pos].title,
-                textAlign: TextAlign.center,
-                style: widget.tabItems[pos].labelStyle,
-              ),
+            child: Text(
+              widget.tabItems[pos].title,
+              textAlign: TextAlign.center,
+              style: widget.tabItems[pos].labelStyle,
             ),
           ),
         ),
