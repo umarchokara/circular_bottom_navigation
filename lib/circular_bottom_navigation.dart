@@ -215,7 +215,7 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
                   child: Text(
                     widget.tabItems[pos].title,
                     textAlign: TextAlign.center,
-                    style: widget.tabItems[pos].labelStyle.copyWith(fontSize: 12,color: Colors.white60),
+                    style: widget.tabItems[pos].labelStyle.copyWith(fontSize: 12,color: Colors.white),
                   ),
                 ),
               ],
