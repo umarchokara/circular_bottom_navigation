@@ -11,15 +11,18 @@ typedef CircularBottomNavSelectedCallback = Function(int? selectedPos);
 class CircularBottomNavigation extends StatefulWidget {
   final List<TabItem> tabItems;
   final int selectedPos;
+  final int lengthOfCart;
   final double barHeight;
   final Color barBackgroundColor;
   final double circleSize;
   final double circleStrokeWidth;
   final double iconsSize;
   final Color selectedIconColor;
+  final Color unSelectedIconColor;
   final Color normalIconColor;
   final Duration animationDuration;
   final List<BoxShadow>? backgroundBoxShadow;
+  final TextStyle cartStyle;
   final CircularBottomNavSelectedCallback? selectedCallback;
   final CircularBottomNavigationController? controller;
 
@@ -36,6 +39,8 @@ class CircularBottomNavigation extends StatefulWidget {
     this.animationDuration = const Duration(milliseconds: 300),
     this.selectedCallback,
     this.controller,
+        this.cartStyle=const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+        this.lengthOfCart=2, this.unSelectedIconColor = Colors.white,
     backgroundBoxShadow,
   })  : backgroundBoxShadow = backgroundBoxShadow ?? [const BoxShadow(color: Colors.grey, blurRadius: 2.0)],
         assert(tabItems.length != 0, "tabItems is required");
@@ -54,6 +59,7 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
   int? selectedPos;
   int? previousSelectedPos;
   CircularBottomNavigationController? _controller;
+
 
   @override
   void initState() {
@@ -182,10 +188,28 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
             scale: scaleFactor,
             child: Column(
               children: [
-                Icon(
-                  widget.tabItems[pos].icon,
-                  size: widget.iconsSize,
-                  color: iconColor,
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Icon(
+                      widget.tabItems[pos].icon,
+                      size: widget.iconsSize,
+                      color: iconColor,
+                    ),
+                    pos==0?Positioned(
+                      right: -2,
+                      top: -5,
+                      child: widget.lengthOfCart>0?Container(height: 17,width: 17,decoration: BoxDecoration(
+                          color: iconColor,borderRadius: BorderRadius.circular(12)
+                      ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: Center(child: Text(
+                              '${widget.lengthOfCart}',style:TextStyle(color: pos == selectedPos?Colors.white:widget.selectedIconColor,fontSize: 12,fontWeight: FontWeight.bold))),
+                        ),
+                      ):Offstage()
+                    ):  Offstage()
+                  ],
                 ),
                 pos == selectedPos? const Offstage():  Center(
                   child: Text(
@@ -199,8 +223,8 @@ class _CircularBottomNavigationState extends State<CircularBottomNavigation> wit
           ),
           left: r.center.dx - (widget.iconsSize / 2),
           top: r.center.dy -
-              (widget.iconsSize /1.4) -
-              (_itemsSelectedState[pos] * ((widget. barHeight / 2.7) + widget.circleStrokeWidth)),
+              (widget.iconsSize /1.6) -
+              (_itemsSelectedState[pos] * (pos==0?(widget. barHeight / 2.3) :(widget. barHeight / 2.1) + widget.circleStrokeWidth)),
         ),
       );
 

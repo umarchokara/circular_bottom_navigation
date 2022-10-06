@@ -120,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
       tabItems,
       controller: _navigationController,
       selectedIconColor: Color(0xFF3DCEA6),
+      normalIconColor: Color(0XFFFFFFFF),
       selectedPos: selectedPos,
       barHeight: 70,
       // barBackgroundColor: Colors.white,
